@@ -1,0 +1,145 @@
+﻿@{
+    Layout = null;
+
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>QuestionPage</title>
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <style>
+        .forminfo {
+            width: 100%;
+            margin: 0 auto;
+            margin-top: 100px;
+        }
+
+        .mybtn {
+            width: 30%;
+        }
+
+        input {
+            margin-top: 10px;
+        }
+
+        button {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <form role="form" class="forminfo">
+                    <div class="form-group">
+                        <div> 你会原谅我吗？</div>
+                        <button type="button" class="btn btn-primary mybtn" id="nop">不会</button>
+                        <button type="button" class="btn btn-primary mybtn" id="ok">好的</button>
+                        <button type="button" class="btn btn-primary mybtn" id="wait">再想想</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<script>
+    $("#nop").click(function () {
+        var num = $("#num").val();
+        if (num == '') {
+            alert('邀请码可不能为空哦！>_<');
+        }
+        $.ajax({
+            url: '/Home/Nop',
+            type: 'Get',
+            processData: false,
+            dataType: 'text',
+            async: true,
+            beforeSend: function () {
+                $("#nop").text("提交中");
+            },
+            success: function (data) {
+                if (data == "ok") {
+                    $("#nop").text("跳转中");
+                    window.location.href = "/Home/Refuse"
+                } else {
+                    $("#nop").text("不会");
+                    return;
+                }
+            },
+            error: function (data) {
+                alert("服务器异常");
+            },
+            complete: function () {
+                $("#nop").text("不会");
+            }
+        });
+    });
+    $("#ok").click(function () {
+        $.ajax({
+            url: '/Home/Okk',
+            type: 'Get',
+            processData: false,
+            dataType: 'text',
+            async: true,
+            beforeSend: function () {
+                $("#ok").text("提交中");
+            },
+            success: function (data) {
+                if (data == "ok") {
+                    $("#ok").text("跳转中");
+                    window.location.href = "/Home/ReturnLovePage"
+                } else {
+               
+                    $("#ok").text("好的");
+                    return;
+                }
+            },
+            error: function (data) {
+                alert("服务器异常");
+            },
+            complete: function () {
+                $("#ok").text("好的");
+            }
+        });
+    });
+    $("#wait").click(function () {
+        var num = $("#num").val();
+        if (num == '') {
+            alert('邀请码可不能为空哦！>_<');
+        }
+        $.ajax({
+            url: '/Home/Wait',
+            type: 'Get',
+            processData: false,
+            dataType: 'text',
+            async: true,
+            beforeSend: function () {
+                $("#wait").text("提交中");
+            },
+            success: function (data) {
+                if (data == "ok") {
+                    $("#wait").text("跳转中");
+                    window.location.href = "/Home/WaitingForYou"
+                } else {
+
+                    $("#wait").text("再想想");
+                    return;
+                }
+            },
+            error: function (data) {
+                alert("服务器异常");
+            },
+            complete: function () {
+                $("#wait").text("再想想");
+            }
+        });
+    });
+
+
+</script>

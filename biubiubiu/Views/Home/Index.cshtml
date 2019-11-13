@@ -1,0 +1,86 @@
+﻿@{
+    Layout = null;
+
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ReturnLovePage</title>
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <style>
+        .forminfo {
+            width: 100%;
+            margin: 0 auto;
+            margin-top: 100px;
+        }
+
+        .mybtn {
+            width: 100%;
+        }
+
+        input {
+            margin-top: 10px;
+        }
+
+        button {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <form role="form" class="forminfo">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="请输入邀请码" id="num">
+                        <button type="button" class="btn btn-primary mybtn" id="submit">提交</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<script>
+    $("#submit").click(function () {
+        var num = $("#num").val();
+        if (num == '') {
+            alert('邀请码可不能为空哦！>_<');
+        }
+        $.ajax({
+            url: '/Home/CheckNum?num=' + num,
+            type: 'Get',
+            processData: false,
+            dataType: 'text',
+            async: true,
+            beforeSend: function () {
+                $("#submit").text("提交中");
+            },
+            success: function (data) {
+                if (data == "ok") {
+                    $("#submit").text("跳转中...");
+                    window.location.href = "Home/QuestionPage"
+                } else {
+                    alert('邀请码错咯');
+                    $("#submit").text("提交");
+                }
+            },
+            error: function (data) {
+                alert("服务器异常");
+            },
+            complete: function () {
+                $("#submit").text("提交");
+            }
+        });
+
+
+
+
+
+    })
+</script>
